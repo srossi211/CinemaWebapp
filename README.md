@@ -1,8 +1,8 @@
 # CinemaWebapp
 
 -> The conf directory has the updated web.xml and context.xml files that enable the use of JDBC
-t
--> Haven't uploaded the MysqlCon.java and MysqlCon.class files (DB access layer) becuase a few more methods need to be implemented. The .java file will go in a directory called "packages" inside the cinema directory, the .class file will go in the classes directory inside WEB-INF directory. 
+
+-> The MysqlCon.java and MysqlCon.class files (DB access layer) need a few more methods need to be implemented. The .java file will go in a directory called "data" inside the cinema directory, the .class file will go in the classes directory inside WEB-INF directory. 
 -> Any .jsp or other file that needs to use the MysqlCon methods will need: 
 <%@ page language="java" %>
 <%@ page import="java.sql.*" %>
