@@ -4,26 +4,19 @@ public class Seat
 {
 	private int seatID;
 	private boolean isFilled;
-	private Hall hall;
-	private Ticket ticket;
-	private Showing showing;
+	private int showing_id;
 	
 	public Seat()
 	{
 		seatID = -1;
 		isFilled = false;
-		hall = null;
-		ticket = null;
-		showing = null;
 	}
 	
-	public Seat(int seatID, boolean isFilled, Hall hall, Ticket ticket, Showing showing)
+	public Seat(int seatID, boolean isFilled, int showing_id)
 	{
 		this.seatID = seatID;
 		this.isFilled = isFilled;
-		this.hall = hall;
-		this.ticket = ticket;
-		this.showing = showing;
+		this.showing_id=showing_id;
 	}
 	
 	public int getSeatID()
@@ -34,18 +27,7 @@ public class Seat
 	{
 		return isFilled;
 	}
-	public Hall getHall()
-	{
-		return hall;
-	}
-	public Ticket getTicket()
-	{
-		return ticket;
-	}
-	public Showing getShowing()
-	{
-		return showing;
-	}
+	
 	
 	public void setSeatID(int seatID)
 	{
@@ -57,18 +39,10 @@ public class Seat
 		this.isFilled = isFilled;
 	}
 	
-	public void setHall(Hall hall)
-	{
-		this.hall = hall;
+	public void setShowingId(int showing_id){
+		this.showing_id=showing_id;
 	}
-	
-	public void setTicket(Ticket ticket)
-	{
-		this.ticket = ticket;
-	}
-	
-	public void setShowing(Showing showing)
-	{
-		this.showing = showing;
+	public int getShowingId(){
+		return showing_id;
 	}
 }
