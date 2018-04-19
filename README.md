@@ -9,6 +9,8 @@ t
 <%@ page import="javax.sql.*" %>
 <%@ page import="MysqlCon.*>
 
+-> Make sure your MySQL username = root and password = root ==> Those are the credentials the DB access layer uses to connect to the database.
+
 -> reg.jsp finishes by redirecting to homePgeIn.html (may need to change it to .jsp to add functionality) which is identical what the main homepage will be, but without the buttons to login/sign up. (need to add signout button).
 
 -> reg.jsp and future .jsp files will need to create objects of any entity class object it creates/needs to update/view which will be passed into the MysqlCon package methods. 
