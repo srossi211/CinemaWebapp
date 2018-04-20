@@ -86,9 +86,9 @@ public class MysqlCon{
 			return 0;
 		}
 	}
-		public int passwordCheckEmp(String uname, String psw) {
-		String query = "select employee_id, password from cinema.employees;";
-		String id="";
+		public int passwordCheckEmp(int uname, String psw) {
+		String query = "select employee_id as e, password as p from cinema.employees";
+		int id=-1;
 		String pass="";
 		try{
 			Connection con = MysqlCon.connect();
@@ -96,10 +96,10 @@ public class MysqlCon{
 			ResultSet rs;
 			rs=st.executeQuery(query);
 			if(rs.next()){
-				id = rs.getString("employee_id");
-				pass = rs.getString("password");
+				id = rs.getInt("e");
+				pass = rs.getString("p");
 			}
-			if((id.equals(uname) == true) && (pass.equals(psw) == true)) {
+			if((pass.equals(psw) == true) && (id == uname)) {
 				return 1;
 			}
 			else {
