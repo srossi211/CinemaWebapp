@@ -47,7 +47,7 @@ public class MysqlCon{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			try{
-				ResultSet rs = st.executeQuery("select MAX(customer_id) from cinema.customer;");
+				ResultSet rs = st.executeQuery("select MAX(customer_id) as customer_id from cinema.customer");
 				if(rs.next()) {
 					max = rs.getInt("customer_id");
 				}
@@ -76,6 +76,30 @@ public class MysqlCon{
 				pass = rs.getString("password");
 			}
 			if((email.equals(uname) == true) && (pass.equals(psw) == true)) {
+				return 1;
+			}
+			else {
+				return 0;
+			}	
+		} catch(Exception e) {
+			System.out.println(e);
+			return 0;
+		}
+	}
+		public int passwordCheckEmp(String uname, String psw) {
+		String query = "select employee_id, password from cinema.employees;";
+		String id="";
+		String pass="";
+		try{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs=st.executeQuery(query);
+			if(rs.next()){
+				id = rs.getString("employee_id");
+				pass = rs.getString("password");
+			}
+			if((id.equals(uname) == true) && (pass.equals(psw) == true)) {
 				return 1;
 			}
 			else {
