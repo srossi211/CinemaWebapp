@@ -1,5 +1,8 @@
 # CinemaWebapp
 
+Update chris 4/19: Login_form.html now works, it uses login.jsp to make a call to the DB access layer. 
+                   createAcct.html now works completely and updates the DB accordingly. 
+                   
 -> The conf directory has the updated web.xml and context.xml files that enable the use of JDBC
 
 -> The MysqlCon.java and MysqlCon.class files (DB access layer) need a few more methods need to be implemented. The .java file will go in a directory called "data" inside the cinema directory, the .class file will go in the classes directory inside WEB-INF directory. 
