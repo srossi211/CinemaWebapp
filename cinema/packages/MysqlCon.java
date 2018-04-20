@@ -44,13 +44,17 @@ public class MysqlCon{
 		int max=0;
 		try{
 			Connection con = MysqlCon.connect();
-			Statement st = con.createStatement();
-			//ResultSet rs = st.executeQuery("select nvl(max(customer_id, 0) customer_id from cinema.customer");
-			//if(rs.next()){
-			//	max = rs.getInt("customer_id");
-			//}
-			max=max+1;
-			return max;
+			Statement st = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			try{
+				ResultSet rs = st.executeQuery("select MAX(customer_id) from cinema.customer;");
+				if(rs.next()) {
+					max = rs.getInt("customer_id");
+				}
+				max=max+1;
+				return max;
+			}catch(Exception e) {
+				return -11;
+			}
 		}catch(Exception e) {
 			System.out.println(e);
 			return -100;
