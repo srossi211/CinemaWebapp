@@ -1,6 +1,7 @@
 <%@ page language="java" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="javax.sql.*" %>
+<%@ page import="java.lang.*" %>
 <%@ page import="MysqlCon.*" %>
 <%@ page import="entity.*" %>
 
@@ -11,9 +12,10 @@
 <body>
 	<%
 	MysqlCon con = new MysqlCon();
-	String uname = request.getParameter("uname");
-	String psw = request.getParameter("psw");
-	int i = con.passwordCheck(uname, psw);
+	String id = request.getParameter("uname");
+	String pass = request.getParameter("psw");
+	int uname = Integer.parseInt(id);
+	int i = con.passwordCheckEmp(uname, pass);
 
 	if(i == 1)
 	{
