@@ -1,6 +1,7 @@
 package MysqlCon;
 import java.sql.*;
 import java.io.*;
+
 //import com.mysql.jdbc.Driver;
 
 public class MysqlCon{
@@ -58,6 +59,31 @@ public class MysqlCon{
 		}catch(Exception e) {
 			System.out.println(e);
 			return -100;
+		}
+	}
+
+	public int passwordCheck(String uname, String psw) {
+		String query = "select email, password from cinema.customer;";
+		String email="";
+		String pass="";
+		try{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs=st.executeQuery(query);
+			if(rs.next()){
+				email = rs.getString("email");
+				pass = rs.getString("password");
+			}
+			if((email.equals(uname) == true) && (pass.equals(psw) == true)) {
+				return 1;
+			}
+			else {
+				return 0;
+			}	
+		} catch(Exception e) {
+			System.out.println(e);
+			return 0;
 		}
 	}
 }
