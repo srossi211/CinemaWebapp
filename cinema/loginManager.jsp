@@ -21,7 +21,7 @@
 	{
 	%>	
 	<center><h2>Login Successful!</h2></center><br>
-	<form action="homePageManager.jsp">
+	<form action="http://localhost:8080/cinema/homePageManager.jsp">
 		<div>
 			<center><input type="submit" value="Home Page"/></center>
 		</div>
@@ -30,7 +30,7 @@
 	}else{ 
 	%>
 		<center><h2>Login Failed! Incorrect Credentials.</h2></center><br>
-		<form action="Login_FormManager.html">
+		<form action="http://localhost:8080/cinema/Login_FormManager.html">
 			<div>
 				<center><input type="submit" value="Try Again"/></center>
 			</div>
