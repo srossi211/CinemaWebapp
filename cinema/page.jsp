@@ -23,7 +23,7 @@
 
 	<body>
 		<h1> Create an Account! </h1>
-		<form action="http://127.0.0.1:8080/cinema/page.jsp">
+		<form action="http://localhost:8080/cinema/page.jsp">
 			<div>
 				<label> * Email:</label>
 					<input type="text" name="Email" required><br>
