@@ -19,7 +19,7 @@
 	{
 	%>	
 	<center><h2>Login Successful!</h2></center><br>
-	<form action="homePageIn.html">
+	<form action="http://localhost:8080/cinema/homePageIn.html">
 		<div>
 			<center><input type="submit" value="Go To Home Page!"/></center>
 		</div>
@@ -28,7 +28,7 @@
 	}else{ 
 	%>
 		<center><h2>Login Failed! Incorrect Credentials.</h2></center><br>
-		<form action="Login_Form.html">
+		<form action="http://localhost:8080/cinema/Login_Form.html">
 			<div>
 				<center><input type="submit" value="Try Again"/></center>
 			</div>
