@@ -1,4 +1,4 @@
-package MysqlCon;
+package data;
 import java.sql.*;
 import java.io.*;
 //import com.mysql.jdbc.Driver;
