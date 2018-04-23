@@ -1,0 +1,25 @@
+.wrapper {
+    padding-top: 12px;
+    margin: 0 auto;
+}
+
+h2 {
+    text-align: center;
+    color: darkblue;
+}
+
+body {
+    text-align: center;
+    background-color: lightyellow;
+}
+
+.summary h2{
+    text-align: left;
+    
+}
+
+.summary {
+    font-family: sans-serif;
+    display: block;
+    text-align: left;
+}
