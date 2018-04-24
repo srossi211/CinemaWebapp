@@ -62,7 +62,7 @@
 		}
 	%>
 
-	<form action="homePageIn.jsp">
+	<form action="homepage.jsp">
 		<div>
 		<center><input type="submit" value="GET STARTED"/></center>
 		</div>
