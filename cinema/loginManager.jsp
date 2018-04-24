@@ -21,16 +21,22 @@
 	{
 	%>	
 	<center><h2>Login Successful!</h2></center><br>
-	<form action="http://localhost:8080/cinema/homePageManager.jsp">
+	<form action="homePageManager.jsp">
 		<div>
-			<center><input type="submit" value="Home Page"/></center>
+			<input type="hidden" name="employee_type" value="<%=uname%>">
+		</div>
+		<div>
+			<input type="hidden" id="psw" name="password" value="<%=pass%>">
+		</div>
+		<div>	
+			<center><input type="submit" value="Go To Home Page!"/></center></input>
 		</div>
 	</form>
 	<%
 	}else{ 
 	%>
 		<center><h2>Login Failed! Incorrect Credentials.</h2></center><br>
-		<form action="http://localhost:8080/cinema/Login_FormManager.html">
+		<form action="Login_FormManager.html">
 			<div>
 				<center><input type="submit" value="Try Again"/></center>
 			</div>

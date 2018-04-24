@@ -1,4 +1,4 @@
-package data;
+package MysqlCon;
 import java.sql.*;
 import java.io.*;
 
@@ -16,7 +16,7 @@ public class MysqlCon{
 		return null;
 	}
 	
-	public static int insertCustomer(int customer, String email, String fname, String lname, String password, String phoneNumber, String street_address, String city, String state, String zipcode, String has_promo, String account) {
+	public int insertCustomer(int customer, String email, String fname, String lname, String password, String phoneNumber, String street_address, String city, String state, String zipcode, String has_promo, String account) {
 		try{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
@@ -25,10 +25,10 @@ public class MysqlCon{
 			return i;
 		} catch(Exception e) {
 			System.out.println(e);
+			return 0;
 		}
-		return 0;
 	}
-	public static int insertPayment(int customer, String card_type, String card_number, int security_code, String billing_zip, String exp_date) {
+	public int insertPayment(int customer, String card_type, String card_number, int security_code, String billing_zip, String exp_date) {
 		try{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
@@ -41,7 +41,7 @@ public class MysqlCon{
 		return 0;
 	}
 
-	public static int getNextId() {
+	public int getNextId() {
 		int max=0;
 		try{
 			Connection con = MysqlCon.connect();
@@ -62,7 +62,7 @@ public class MysqlCon{
 		}
 	}
 
-	public static int passwordCheck(String uname, String psw) {
+	public int passwordCheck(String uname, String psw) {
 		String query = "select email as e, password as p from cinema.customer where email = '" + uname + "'";
 		String email="";
 		String pass="";
@@ -88,7 +88,7 @@ public class MysqlCon{
 		}
 		
 	}
-	public static int passwordCheckEmp(int uname, String psw) {
+	public int passwordCheckEmp(int uname, String psw) {
 		String query = "select employee_id as e, password as p from cinema.employees where employee_id = '" + uname +"'";
 		int id=-1;
 		String pass="";
@@ -114,7 +114,7 @@ public class MysqlCon{
 		}
 	}
 	/*need to figure out how to access the entity classes*/
-	public static String[] movieDetails(String movie_name) {
+	public String[] movieDetails(String movie_name) {
 		String[] none = {"No Movies Found"};
 		String cast_list = "";
 		String producer ="";
@@ -151,9 +151,9 @@ public class MysqlCon{
 		}
 	}
 	//returns movie id
-	public static int searchMovie(String movie){ 
+	public int searchMovie(String movie){ 
 		int id=-1;
-		String query = "select movie_id as id FROM cinema.movie WHERE movie_name="+movie;
+		String query = "select movie_id as id FROM cinema.movie WHERE movie_name='"+movie+"'";
 		try{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
@@ -161,94 +161,41 @@ public class MysqlCon{
 			rs=st.executeQuery(query);
 			if(rs.next()){
 				id = rs.getInt("id");
+				System.out.println(id);
+				return id;
 			}	
-			
-			return id;
+			return 200;
 
 		} catch(Exception e) {
 			System.out.println(e);
+			id=100;
 			return id;
 		}
 	}
 
-	public static int getMovieCount()
-	{
-		int ret = -1;
-		String query = "select COUNT(*) as n from movie";
-		try
-		{
+	public int isShowing(int movie_id) {
+		int isShowing = -1;
+		String query = "select currently_showing as cs from cinema.movie WHERE movie_id='"+ movie_id + "'";
+		try{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
 			ResultSet rs;
-			rs = st.executeQuery(query);
-			if(rs.next())
-			{
-				ret= rs.getInt("n");
+			rs=st.executeQuery(query);
+			if(rs.next()){
+				isShowing=rs.getInt("cs");
+				System.out.println(isShowing);
 			}
-
-			return ret;
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-			return ret;
-		}
-	}
-
-	public static String[][] getMovieInfo()
-	{
-		String[][] ret = new String[getMovieCount()][10];
-		String query = "select movie_id as id, movie_name as n, cast_list as c, producer as p, director as d, synopsis as s, picture as pic, rating as r, currently_showing as cs, trailer as t from movie;";
-		try
-		{
-			Connection con = MysqlCon.connect();
-			Statement st = con.createStatement();
-			ResultSet rs;
-			rs = st.executeQuery(query);
-			//Sort things out.
-			for(int i=0; i<getMovieCount(); i++)
-			{
-				if(rs.next())
-				{
-					ret[i][0] = String.valueOf(rs.getInt("id"));
-					ret[i][1] = rs.getString("n");
-					ret[i][2] = rs.getString("c");
-					ret[i][3] = rs.getString("p");
-					ret[i][4] = rs.getString("d");
-					ret[i][5] = rs.getString("s");
-					ret[i][6] = rs.getString("pic");
-					ret[i][7] = String.valueOf(rs.getInt("r"));
-					ret[i][8] = String.valueOf(rs.getInt("cs"));
-					ret[i][9] = rs.getString("t");
-				}
+			if(isShowing==1) {
+				return 1;
+			}else{
+				return 0;
 			}
-
-			return ret;
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			System.out.println(e);
-			return ret;
+			return 100;
 		}
 	}
 
-	public static void addMovie(String name, String show, String dir, String prod, String cast, String pic, String trail, String rate, String syn)
-	{
-		String query = "INSERT INTO movie (movie_id, movie_name, cast_list, producer, director, synopsis, picture, rating, currently_showing, trailer) VALUES ('"+getNextId()+"', '"+name+"', '"+cast+"', '"+prod+"', '"+dir+"', '"+syn+"', '"+pic+"', '"+rate+"', '"+show+"', '"+trail+"')";
-		try
-		{
-			Connection con = MysqlCon.connect();
-			Statement st = con.createStatement();
-			ResultSet rs;
-			rs = st.executeQuery(query);
-			return;
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-			return;
-		}
-	}
 }
 
 /*  EXAMPLES

@@ -26,12 +26,19 @@ body{
 		
 	%>	
 	
-	<center><h2><%=movie%> Is Now Showing!
-		
+	<center><h2><%=movie%> Is Now Showing!</h2>
+
 	<form action = "showtimes.jsp">
-			<center><button><type="submit" name="showtimes">Find A Showtime</button></center>
+		<div>
+		<LABEL>Select a showtime:</LABEL>
+			<select name="showtimes">
+				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
+				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
+				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
+			</select>
+		</div>		
 	</form>
-	</h2></center>
+	</center>
 	<%
 	//}
 	%>

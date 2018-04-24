@@ -1,5 +1,5 @@
 package entityManagment;
-import "MysqlCon.class";
+import MysqlCon.*;
 
 
 public class MovieBean implements Serializable
