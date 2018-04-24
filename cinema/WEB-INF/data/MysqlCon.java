@@ -25,8 +25,8 @@ public class MysqlCon{
 			return i;
 		} catch(Exception e) {
 			System.out.println(e);
+			return 0;
 		}
-		return 0;
 	}
 	public int insertPayment(int customer, String card_type, String card_number, int security_code, String billing_zip, String exp_date) {
 		try{
@@ -153,7 +153,7 @@ public class MysqlCon{
 	//returns movie id
 	public int searchMovie(String movie){ 
 		int id=-1;
-		String query = "select movie_id as id FROM cinema.movie WHERE movie_name="+movie;
+		String query = "select movie_id as id FROM cinema.movie WHERE movie_name='"+movie+"'";
 		try{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
@@ -161,15 +161,41 @@ public class MysqlCon{
 			rs=st.executeQuery(query);
 			if(rs.next()){
 				id = rs.getInt("id");
+				System.out.println(id);
+				return id;
 			}	
-			
-			return id;
+			return 200;
 
 		} catch(Exception e) {
 			System.out.println(e);
+			id=100;
 			return id;
 		}
 	}
+
+	public int isShowing(int movie_id) {
+		int isShowing = -1;
+		String query = "select currently_showing as cs from cinema.movie WHERE movie_id='"+ movie_id + "'";
+		try{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs=st.executeQuery(query);
+			if(rs.next()){
+				isShowing=rs.getInt("cs");
+				System.out.println(isShowing);
+			}
+			if(isShowing==1) {
+				return 1;
+			}else{
+				return 0;
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+			return 100;
+		}
+	}
+
 }
 
 /*  EXAMPLES
