@@ -1,4 +1,4 @@
-package data;
+package MysqlCon;
 import java.sql.*;
 import java.io.*;
 
@@ -63,7 +63,7 @@ public class MysqlCon{
 	}
 
 	public int passwordCheck(String uname, String psw) {
-		String query = "select email, password from cinema.customer;";
+		String query = "select email as e, password as p from cinema.customer where email = '" + uname + "'";
 		String email="";
 		String pass="";
 		try{
@@ -72,22 +72,24 @@ public class MysqlCon{
 			ResultSet rs;
 			rs=st.executeQuery(query);
 			if(rs.next()){
-				email = rs.getString("email");
-				pass = rs.getString("password");
+				email = rs.getString("e");
+				pass = rs.getString("p");
+				System.out.println(email +" " + pass);
 			}
-			if((email.equals(uname) == true) && (pass.equals(psw) == true)) {
-				return 1;
+			if((pass.equals(psw) == true) && (email.equals(uname) == true)) {
+					return 1;
+			} else {
+					return 0;
 			}
-			else {
-				return 0;
-			}	
+
 		} catch(Exception e) {
 			System.out.println(e);
-			return 0;
+			return 100;
 		}
+		
 	}
-		public int passwordCheckEmp(int uname, String psw) {
-		String query = "select employee_id as e, password as p from cinema.employees";
+	public int passwordCheckEmp(int uname, String psw) {
+		String query = "select employee_id as e, password as p from cinema.employees where employee_id = '" + uname +"'";
 		int id=-1;
 		String pass="";
 		try{
@@ -98,16 +100,17 @@ public class MysqlCon{
 			if(rs.next()){
 				id = rs.getInt("e");
 				pass = rs.getString("p");
+				System.out.println(id +" " + pass);
 			}
 			if((pass.equals(psw) == true) && (id == uname)) {
 				return 1;
-			}
+				}
 			else {
 				return 0;
 			}	
 		} catch(Exception e) {
 			System.out.println(e);
-			return 0;
+			return 100;
 		}
 	}
 	/*need to figure out how to access the entity classes*/
