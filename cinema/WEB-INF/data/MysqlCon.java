@@ -234,6 +234,63 @@ public class MysqlCon{
 		}
 	}
 
+	public static int countShowtimesFor(String movie)
+	{
+		int ret = -1;
+		String query = "SELECT COUNT(*) as n from showings WHERE movie_id = "+movie+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			if(rs.next())
+			{
+				ret= rs.getInt("n");
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}	
+	}
+
+	public static String[][] getShowtimesFor(String movie)
+	{
+		String[][] ret = new String[countShowtimesFor(movie)][6];
+		String query = "select showing_id as id, movie_id as m, hall_id as h, num_tickets_available as n, date as d, time as t from showings WHERE movie_id = "+movie+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			//Sort things out.
+			for(int i=0; i<getShowingCount(); i++)
+			{
+				if(rs.next())
+				{
+					ret[i][0] = String.valueOf(rs.getInt("id"));
+					ret[i][1] = String.valueOf(rs.getInt("m"));
+					ret[i][2] = String.valueOf(rs.getInt("h"));
+					ret[i][3] = String.valueOf(rs.getInt("n"));
+					ret[i][4] = rs.getString("d");
+					ret[i][5] = rs.getString("t");
+				}
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}
+	}
+
 	public static int getMovieCount()
 	{
 		int ret = -1;
@@ -286,6 +343,30 @@ public class MysqlCon{
 	{
 		int ret = -1;
 		String query = "select COUNT(*) as n from booking";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			if(rs.next())
+			{
+				ret= rs.getInt("n");
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}
+	}
+
+	public static int getEmployeeCount()
+	{
+		int ret = -1;
+		String query = "select COUNT(*) as n from employees";
 		try
 		{
 			Connection con = MysqlCon.connect();
@@ -397,6 +478,38 @@ public class MysqlCon{
 					ret[i][3] = String.valueOf(rs.getInt("n"));
 					ret[i][4] = String.valueOf(rs.getDouble("p"));
 					ret[i][5] = String.valueOf(rs.getInt("m"));
+				}
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}
+	}
+
+	public static String[][] getEmployeeInfo()
+	{
+		String[][] ret = new String[getEmployeeCount()][5];
+		String query = "select employee_id as id, employee_type as t, first_name as f, last_name as l, password as p from employees;";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			//Sort things out.
+			for(int i=0; i<getEmployeeCount(); i++)
+			{
+				if(rs.next())
+				{
+					ret[i][0] = String.valueOf(rs.getInt("id"));
+					ret[i][1] = String.valueOf(rs.getInt("t"));
+					ret[i][2] = rs.getString("f");
+					ret[i][3] = rs.getString("l");
+					ret[i][4] = rs.getString("p");
 				}
 			}
 

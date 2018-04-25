@@ -9,6 +9,11 @@ public class DataBean implements Serializable
 	{
 	}
 
+	public String[][] getShowtimesFor(String movie)
+	{
+		return MysqlCon.getShowtimesFor(movie);
+	}
+
 	public String[][] getMovieInfo()
 	{
 		return MysqlCon.getMovieInfo();
@@ -82,5 +87,15 @@ public class DataBean implements Serializable
 	public String deleteBooking(String id)
 	{
 		return MysqlCon.deleteBooking(id);
+	}
+
+	public String[][] getEmployeeInfo()
+	{
+		return MysqlCon.getEmployeeInfo();
+	}
+
+	public int employeeCount()
+	{
+		return MysqlCon.getEmployeeCount();
 	}
 }
