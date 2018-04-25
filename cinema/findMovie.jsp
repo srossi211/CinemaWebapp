@@ -4,6 +4,11 @@
 <%@ page import="java.lang.*" %>
 <%@ page import="MysqlCon.*" %>
 <%@ page import="entity.*" %>
+<%@ page import="javax.servlet.*"%>
+<%@ page import="javax.servlet.http.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.net.*"%>
+
 
 	<%
 	String uname = request.getParameter("uname");
@@ -18,29 +23,50 @@
 body{
 	background-color: green;
 }
-</style>
-	<title>Search Results</title>
-		<center><h1>Search Results</h1></center>
-	<body>
-	<%
-		
-	%>	
-	
-	<center><h2><%=movie%> Is Now Showing!</h2>
 
-	<form action = "showtimes.jsp">
-		<div>
-		<LABEL>Select a showtime:</LABEL>
-			<select name="showtimes">
-				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
-				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
-				<option value="<%=movie_id%>">TIME/DATE of showtime from db</option>
-			</select>
-		</div>		
+h2 {
+	margin-left:570px;
+}
+
+text {
+	margin-left:620px;
+}
+
+button {
+	display:inline-block;
+	vertical-align:middle;
+	margin:10px 0;
+}
+</style>
+	<title><%=movie%></title>
+		<center><h1><%=movie%></h1></center>
+	<body>
+	
+	<center><h1><%=movie%> Is Now Showing!
+	
+	</h1></center>
+	<div class="container">
+	<h2> <%=movie%> has 4 different show times.</h2>
+	<ul>
+		 <text>1:00pm </text>
+		<form action = "seats.jsp">
+	<button><type="submit" name="seats">Find A Seat</button>
 	</form>
-	</center>
-	<%
-	//}
-	%>
+		 <br>
+		 <text>3:45pm </text>
+		 <form action = "seats.jsp">
+	<button><type="submit" name="seats">Find A Seat</button>
+	</form>
+		 <br>
+		 <text>6:30pm </text>
+		 <form action = "seats.jsp">
+	<button><type="submit" name="seats">Find A Seat</button>
+	</form>
+		 <br>
+		 <text>9:15pm </text>
+		 <form action = "seats.jsp">
+	<button><type="submit" name="seats">Find A Seat</button>
+	</form>
+	</ul>
 	</body>
 </html>
