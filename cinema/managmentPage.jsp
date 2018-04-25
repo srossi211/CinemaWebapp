@@ -10,9 +10,7 @@
 
 	<!-- Incoming request code -->
 	<% 
-	if(request.getParameter("addMovieBtn")!=null)
-		{
-			if(request.getParameter("movieName")!=null &&
+	boolean allFields = (request.getParameter("movieName")!=null &&
 			request.getParameter("currentlyShowing")!=null &&
 			request.getParameter("director")!=null &&
 			request.getParameter("producer")!=null &&
@@ -20,11 +18,46 @@
 			request.getParameter("picture")!=null &&
 			request.getParameter("trailer")!=null &&
 			request.getParameter("rating")!=null &&
-			request.getParameter("synopsis")!=null)
+			request.getParameter("synopsis")!=null);
+
+	String status = "X: ";
+	//Add Button
+	if(request.getParameter("addMovieBtn")!=null)
+	{
+		status = "Got into the add button: ";
+		if(allFields)
+		{
+			status += dataBean.addMovie(request.getParameter("movieName"), request.getParameter("currentlyShowing"), request.getParameter("director"), request.getParameter("producer"), request.getParameter("castList"), request.getParameter("picture"), request.getParameter("trailer"), request.getParameter("rating"), request.getParameter("synopsis"));
+		}			
+	}
+
+	String[][] movies = dataBean.getMovieInfo();
+
+	//Update button
+	for(int i =0; i<dataBean.movieCount(); i++)
+	{
+		if(request.getParameter("editBtn"+movies[i][0]) !=null)
+		{
+			status += "Got into update button "+movies[i][0]+": ";
+			if(allFields)
 			{
-				dataBean.addMovie(request.getParameter("movieName"), request.getParameter("currentlyShowing"), request.getParameter("director"), request.getParameter("producer"), request.getParameter("castList"), request.getParameter("picture"), request.getParameter("trailer"), request.getParameter("rating"), request.getParameter("synopsis"));
+				status += dataBean.updateMovie(movies[i][0], request.getParameter("movieName"), request.getParameter("currentlyShowing"), request.getParameter("director"), request.getParameter("producer"), request.getParameter("castList"), request.getParameter("picture"), request.getParameter("trailer"), request.getParameter("rating"), request.getParameter("synopsis"));
 			}
 		}
+	}
+
+	//Delete button
+	for(int i =0; i<dataBean.movieCount(); i++)
+	{
+		if(request.getParameter("delBtn"+movies[i][0]) !=null)
+		{
+			status += "Got into delete button "+movies[i][0]+": ";
+			if(allFields)
+			{
+				status += dataBean.deleteMovie(movies[i][0]);
+			}
+		}
+	}
 		%>
 
 	<body>
@@ -59,7 +92,7 @@
 			<td style="border: 1px solid black;"><button type="submit" name="addMovieBtn">Add New</button></td>
 		</tr>
 
-		<% String[][] movies = dataBean.getMovieInfo();
+		<% 
 		for(int i= 0; i<dataBean.movieCount(); i++)
 			{ %>
 		<tr>
@@ -75,18 +108,21 @@
 			<td style="border: 1px solid black;"><%= movies[i][9]%></td>
 			<td style="border: 1px solid black;"><jsp:element name="button">
 				<jsp:attribute name="type">submit</jsp:attribute>
-  				<jsp:attribute name="name">editBtn<%= i %></jsp:attribute>
+  				<jsp:attribute name="name">editBtn<%= movies[i][0] %></jsp:attribute>
   				<jsp:body>Update</jsp:body>
   				</jsp:element>
   				<jsp:element name="button">
 				<jsp:attribute name="type">submit</jsp:attribute>
-  				<jsp:attribute name="name">delBtn<%= i %></jsp:attribute>
+  				<jsp:attribute name="name">delBtn<%= movies[i][0] %></jsp:attribute>
   				<jsp:body>Delete</jsp:body>
 				</jsp:element></td>
 		</tr>
 		<% } %>
 		</table>
 	</form>
+
+	<%= status %>
+
 	</body>
 
 </html>
