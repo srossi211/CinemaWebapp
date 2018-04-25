@@ -10,12 +10,17 @@
 <%@ page import="java.net.*"%>
 
 
+	<jsp:useBean id="dataBean" class="data.DataBean" scope="session" ></jsp:useBean>
+
 	<%
 	String uname = request.getParameter("uname");
 	String movie = request.getParameter("movie");
 	MysqlCon con = new MysqlCon();
 	int movie_id = con.searchMovie(movie);
 	int currently_showing=con.isShowing(movie_id);
+
+	String[][] curShowings = dataBean.getShowtimesFor(String.valueOf(movie_id));
+	//String[][] curShowings = dataBean.getShowingInfo();
 	%>
 
 <html>
@@ -42,31 +47,22 @@ button {
 		<center><h1><%=movie%></h1></center>
 	<body>
 	
+	<%--= String.valueOf(movie_id)--%>
+
 	<center><h1><%=movie%> Is Now Showing!
 	
 	</h1></center>
 	<div class="container">
-	<h2> <%=movie%> has 4 different show times.</h2>
+	<h2> <%=movie%> has <%= curShowings.length %> different show times.</h2>
 	<ul>
-		 <text>1:00pm </text>
+		<% for(int i=0; i<curShowings.length; i++)
+		{ %>
+		 <text><%= curShowings[i][4]%> <%= curShowings[i][5]%></text>
 		<form action = "seats.jsp">
 	<button><type="submit" name="seats">Find A Seat</button>
 	</form>
 		 <br>
-		 <text>3:45pm </text>
-		 <form action = "seats.jsp">
-	<button><type="submit" name="seats">Find A Seat</button>
-	</form>
-		 <br>
-		 <text>6:30pm </text>
-		 <form action = "seats.jsp">
-	<button><type="submit" name="seats">Find A Seat</button>
-	</form>
-		 <br>
-		 <text>9:15pm </text>
-		 <form action = "seats.jsp">
-	<button><type="submit" name="seats">Find A Seat</button>
-	</form>
+		 <% }%>
 	</ul>
 	</body>
 </html>
