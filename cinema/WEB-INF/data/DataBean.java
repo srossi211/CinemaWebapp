@@ -58,4 +58,29 @@ public class DataBean implements Serializable
 	{
 		return MysqlCon.deleteShowing(id);
 	}
+
+	public String[][] getBookingInfo()
+	{
+		return MysqlCon.getBookingInfo();
+	}
+
+	public int bookingCount()
+	{
+		return MysqlCon.getBookingCount();
+	}
+
+	public String addBooking(String cus, String date, String tickets, String price, String movie)
+	{
+		return MysqlCon.addBooking(cus, date, tickets, price, movie);
+	}
+
+	public String updateBooking(String id, String cus, String date, String tickets, String price, String movie)
+	{
+		return MysqlCon.updateBooking(id, cus, date, tickets, price, movie);
+	}
+
+	public String deleteBooking(String id)
+	{
+		return MysqlCon.deleteBooking(id);
+	}
 }
