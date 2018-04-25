@@ -83,6 +83,27 @@ public class MysqlCon{
 		}
 	}
 
+	public static int getNextShowingId() {
+		int max=0;
+		try{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			try{
+				ResultSet rs = st.executeQuery("select MAX(showing_id) as s_id from cinema.showings");
+				if(rs.next()) {
+					max = rs.getInt("s_id");
+				}
+				max=max+1;
+				return max;
+			}catch(Exception e) {
+				return -11;
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+			return -100;
+		}
+	}
+
 	public static int passwordCheck(String uname, String psw) {
 		String query = "select email as e, password as p from cinema.customer where email = '" + uname + "'";
 		String email="";
@@ -216,6 +237,30 @@ public class MysqlCon{
 		}
 	}
 
+	public static int getShowingCount()
+	{
+		int ret = -1;
+		String query = "select COUNT(*) as n from showings";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			if(rs.next())
+			{
+				ret= rs.getInt("n");
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}
+	}
+
 	public static String[][] getMovieInfo()
 	{
 		String[][] ret = new String[getMovieCount()][10];
@@ -253,9 +298,60 @@ public class MysqlCon{
 		}
 	}
 
+	public static String[][] getShowingInfo()
+	{
+		String[][] ret = new String[getShowingCount()][6];
+		String query = "select showing_id as id, movie_id as m, hall_id as h, num_tickets_available as n, date as d, time as t from showings;";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			rs = st.executeQuery(query);
+			//Sort things out.
+			for(int i=0; i<getShowingCount(); i++)
+			{
+				if(rs.next())
+				{
+					ret[i][0] = String.valueOf(rs.getInt("id"));
+					ret[i][1] = String.valueOf(rs.getInt("m"));
+					ret[i][2] = String.valueOf(rs.getInt("h"));
+					ret[i][3] = String.valueOf(rs.getInt("n"));
+					ret[i][4] = rs.getString("d");
+					ret[i][5] = rs.getString("t");
+				}
+			}
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return ret;
+		}
+	}
+
 	public static String addMovie(String name, String show, String dir, String prod, String cast, String pic, String trail, String rate, String syn)
 	{
 		String query = "INSERT INTO movie (movie_id, movie_name, cast_list, producer, director, synopsis, picture, rating, currently_showing, trailer) VALUES ('"+getNextMovieId()+"', '"+name+"', '"+cast+"', '"+prod+"', '"+dir+"', '"+syn+"', '"+pic+"', '"+rate+"', '"+show+"', '"+trail+"')";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			int i = st.executeUpdate(query);
+			return "All good?";
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return e.toString();
+		}
+	}
+
+	public static String addShowing(String movie, String hall, String tickets, String date, String time)
+	{
+		String query = "INSERT INTO showings (showing_id, movie_id, hall_id, num_tickets_available, date, time) VALUES ('"+getNextShowingId()+"', '"+movie+"', '"+hall+"', '"+tickets+"', '"+date+"', '"+time+"')";
 		try
 		{
 			Connection con = MysqlCon.connect();
@@ -289,9 +385,45 @@ public class MysqlCon{
 		}
 	}
 
+	public static String updateShowing(String id, String movie, String hall, String tickets, String date, String time)
+	{
+		String query = "UPDATE showings SET movie_id = '"+movie+"' , hall_id = '"+hall+"', num_tickets_available = '"+tickets+"', date = '"+date+"', time = '"+time+"' WHERE showing_id = "+id+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			int i = st.executeUpdate(query);
+			return "All good?";
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return e.toString();
+		}
+	}
+
 	public static String deleteMovie(String id)
 	{
 		String query = "DELETE FROM movie WHERE movie_id = "+id+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			int i = st.executeUpdate(query);
+			return "All good?";
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return e.toString();
+		}
+	}
+
+	public static String deleteShowing(String id)
+	{
+		String query = "DELETE FROM showings WHERE showing_id = "+id+";";
 		try
 		{
 			Connection con = MysqlCon.connect();
