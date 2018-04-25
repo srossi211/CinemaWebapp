@@ -19,8 +19,18 @@ public class DataBean implements Serializable
 		return MysqlCon.getMovieCount();
 	}
 
-	public void addMovie(String name, String showing, String director, String producer, String cast, String picture, String trailer, String rating, String synopsis)
+	public String addMovie(String name, String showing, String director, String producer, String cast, String picture, String trailer, String rating, String synopsis)
 	{
-		MysqlCon.addMovie(name, showing, director, producer, cast, picture, trailer, rating, synopsis);
+		return MysqlCon.addMovie(name, showing, director, producer, cast, picture, trailer, rating, synopsis);
+	}
+
+	public String updateMovie(String id, String name, String showing, String director, String producer, String cast, String picture, String trailer, String rating, String synopsis)
+	{
+		return MysqlCon.updateMovie(id, name, showing, director, producer, cast, picture, trailer, rating, synopsis);
+	}
+
+	public String deleteMovie(String id)
+	{
+		return MysqlCon.deleteMovie(id);
 	}
 }

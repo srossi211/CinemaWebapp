@@ -62,6 +62,27 @@ public class MysqlCon{
 		}
 	}
 
+	public static int getNextMovieId() {
+		int max=0;
+		try{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			try{
+				ResultSet rs = st.executeQuery("select MAX(movie_id) as m_id from cinema.movie");
+				if(rs.next()) {
+					max = rs.getInt("m_id");
+				}
+				max=max+1;
+				return max;
+			}catch(Exception e) {
+				return -11;
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+			return -100;
+		}
+	}
+
 	public static int passwordCheck(String uname, String psw) {
 		String query = "select email as e, password as p from cinema.customer where email = '" + uname + "'";
 		String email="";
@@ -232,21 +253,57 @@ public class MysqlCon{
 		}
 	}
 
-	public static void addMovie(String name, String show, String dir, String prod, String cast, String pic, String trail, String rate, String syn)
+	public static String addMovie(String name, String show, String dir, String prod, String cast, String pic, String trail, String rate, String syn)
 	{
-		String query = "INSERT INTO movie (movie_id, movie_name, cast_list, producer, director, synopsis, picture, rating, currently_showing, trailer) VALUES ('"+getNextId()+"', '"+name+"', '"+cast+"', '"+prod+"', '"+dir+"', '"+syn+"', '"+pic+"', '"+rate+"', '"+show+"', '"+trail+"')";
+		String query = "INSERT INTO movie (movie_id, movie_name, cast_list, producer, director, synopsis, picture, rating, currently_showing, trailer) VALUES ('"+getNextMovieId()+"', '"+name+"', '"+cast+"', '"+prod+"', '"+dir+"', '"+syn+"', '"+pic+"', '"+rate+"', '"+show+"', '"+trail+"')";
 		try
 		{
 			Connection con = MysqlCon.connect();
 			Statement st = con.createStatement();
 			ResultSet rs;
-			rs = st.executeQuery(query);
-			return;
+			int i = st.executeUpdate(query);
+			return "All good?";
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
-			return;
+			return e.toString();
+		}
+	}
+
+	public static String updateMovie(String id, String name, String show, String dir, String prod, String cast, String pic, String trail, String rate, String syn)
+	{
+		String query = "UPDATE movie SET movie_name = '"+name+"' , currently_showing = '"+show+"', director = '"+dir+"', producer = '"+prod+"', cast_list = '"+cast+"', picture = '"+pic+"', trailer = '"+trail+"', rating = '"+rate+"', synopsis = '"+syn+"' WHERE movie_id = "+id+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			int i = st.executeUpdate(query);
+			return "All good?";
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return e.toString();
+		}
+	}
+
+	public static String deleteMovie(String id)
+	{
+		String query = "DELETE FROM movie WHERE movie_id = "+id+";";
+		try
+		{
+			Connection con = MysqlCon.connect();
+			Statement st = con.createStatement();
+			ResultSet rs;
+			int i = st.executeUpdate(query);
+			return "All good?";
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			return e.toString();
 		}
 	}
 }
